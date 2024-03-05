@@ -6,15 +6,15 @@ The goal of this project is to get human pose estimation and localize it in 3D s
 
 
 ## Features
--**Real-time Pose Estimation:** Utilize the Zed2i camera to perform real-time human pose estimation.
--**Configuration:** Easily configure and customize the parameters of the camera for pose estimation according to your requirements.
--**Applications:** Analyse movements of humans in different conditions of the room. Eventually, make the room conditions such that the person is relaxed.
+- **Real-time Pose Estimation:** Utilize the Zed2i camera to perform real-time human pose estimation.
+- **Configuration:** Easily configure and customize the parameters of the camera for pose estimation according to your requirements.
+- **Applications:** Analyse movements of humans in different conditions of the room. Eventually, make the room conditions such that the person is relaxed.
 
 ## Prerequisites
--Zed2i Camera
--Zed SDK and its requirements.
--Python
--Nvidia-GPU
+- Zed2i Camera
+- Zed SDK and its requirements.
+- Python
+- Nvidia-GPU
 
 ## Installation
 1. Install [Zed SDK][https://github.com/stereolabs/zed-sdk]
