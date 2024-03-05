@@ -119,7 +119,6 @@ def main() :
         print('Please provide ZED serial number')
         exit(1)
 
-    # Open the ZED camera
     cap = cv2.VideoCapture(0)
     if cap.isOpened() == 0:
         exit(-1)
@@ -128,7 +127,6 @@ def main() :
     image_size.width = 1280
     image_size.height = 720
 
-    # Set the video resolution to HD720
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, image_size.width*2)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, image_size.height)
 
@@ -136,7 +134,7 @@ def main() :
     # calibration_file = download_calibration_file(serial_number)
     # if calibration_file  == "":
     #     exit(1)
-    calibration_file = r"D:\Venki\Codes\SN36973691.conf"
+    calibration_file = r"D:\Venki\Codes\SN_______.conf"
     print("Calibration file found. Loading...")
 
     camera_matrix_left, camera_matrix_right, map_left_x, map_left_y, map_right_x, map_right_y = init_calibration(calibration_file, image_size)
@@ -145,11 +143,8 @@ def main() :
 
     calib = []
     while True :
-        # Get a new frame from camera
         retval, frame = cap.read()
-        # Extract left and right images from side-by-side
         left_right_image = np.split(frame, 2, axis=1)
-        # Display images
         calib.append(camera_matrix_left)
         np.save(r'C:\Users\Neurotech\Downloads\camera_matrix_left_2.npy', calib)
         np.save(r'C:\Users\Neurotech\Downloads\camera_matrix_left.npy', camera_matrix_left)

@@ -23,24 +23,21 @@ signal(SIGINT, handler)
 def save_joint_positions(body_data):
     global joint_positions
     for body in body_data.body_list:
-        if body.id == 0:  # Assuming you are tracking only one person
+        if body.id == 0: 
             joints_to_track = {
                 'left_elbow': 7, 'right_elbow': 8,
                 'left_wrist': 9, 'right_wrist': 10,
                 'left_knee': 13, 'right_knee': 14,
                 'left_ankle': 15,'right_ankle': 16
             }
-            # Dictionary to store positions of tracked joints
             tracked_joint_positions = {}
             for joint_name, joint_index in joints_to_track.items():
                 if len(body.skeleton.joints) > joint_index:
-                    # Get the 3D position of the joint
                     joint_position = body.skeleton.joints[joint_index].position
-                    # Store the position in the dictionary
+
                     tracked_joint_positions[joint_name] = joint_position
                 else:
                     print(f"Joint {joint_name} not found for body {body.id}")
-            # Append the positions to the list
             joint_positions.append(tracked_joint_positions)
     print("Shape of joints = ",np.array(joint_position).shape)
 
@@ -88,7 +85,7 @@ def depth_to_world_coordinates(depth, x, y, fx, fy, cx, cy):
     normalized_x = (x - cx) / fx
     normalized_y = (y - cy) / fy
 
-    # print("Chaha", type(normalized_x), type(normalized_y), type(depth[1])
+    # print("Normalized X and Y and depth", type(normalized_x), type(normalized_y), type(depth[1])
     #       ,"\n", depth )
     
     world_x = float(depth[1]) * normalized_x
@@ -101,41 +98,37 @@ def depth_to_world_coordinates(depth, x, y, fx, fy, cx, cy):
 def main():
     print("Running Body Tracking sample ... Press 'q' to quit, or 'm' to pause or restart")
 
-    # Create a Camera object
     zed = sl.Camera()
     kps = []
     depths_ = []
     wp = []
-    # Create a InitParameters object and set configuration parameters
     init_params = sl.InitParameters()
-    init_params.camera_resolution = sl.RESOLUTION.HD1080  # Use HD1080 video mode
-    init_params.coordinate_units = sl.UNIT.METER          # Set coordinate units
+    init_params.camera_resolution = sl.RESOLUTION.HD1080  
+    init_params.coordinate_units = sl.UNIT.METER          
     init_params.coordinate_system = sl.COORDINATE_SYSTEM.RIGHT_HANDED_Y_UP
     init_params.depth_minimum_distance = 0
     init_params.depth_maximum_distance = 10
     
     parse_args(init_params)
 
-    # Open the camera
     err = zed.open(init_params)
     if err != sl.ERROR_CODE.SUCCESS:
         exit(1)
 
-    # Enable Positional tracking (mandatory for object detection)
     positional_tracking_parameters = sl.PositionalTrackingParameters()
     zed.enable_positional_tracking(positional_tracking_parameters)
     
     body_param = sl.BodyTrackingParameters()
-    body_param.enable_tracking = True                # Track people across images flow
-    body_param.enable_body_fitting = True            # Smooth skeleton move
+    body_param.enable_tracking = True                
+    body_param.enable_body_fitting = True            
     body_param.detection_model = sl.BODY_TRACKING_MODEL.HUMAN_BODY_FAST 
-    body_param.body_format = sl.BODY_FORMAT.BODY_18  # Choose the BODY_FORMAT you wish to use
+    body_param.body_format = sl.BODY_FORMAT.BODY_18  
 
     camera_matrix_left = np.load(r'C:\Users\Neurotech\Downloads\camera_matrix_left.npy')
 
     fx, fy = camera_matrix_left[0,0], camera_matrix_left[1,1]
     cx, cy = camera_matrix_left[0,2], camera_matrix_left[1,2]
-    # print("fx = ",camera_matrix_left)
+    # print("Camera Intrinsic Matrix_left = ",camera_matrix_left)
     
     zed.enable_body_tracking(body_param)
 
@@ -144,7 +137,7 @@ def main():
 
     os.makedirs(os.path.dirname(opt.output_svo_file), exist_ok=True)
 
-    recording_param = sl.RecordingParameters(opt.output_svo_file, sl.SVO_COMPRESSION_MODE.H264) # Enable recording with the filename specified in argument
+    recording_param = sl.RecordingParameters(opt.output_svo_file, sl.SVO_COMPRESSION_MODE.H264) 
 
     err = zed.enable_recording(recording_param)
     if err != sl.ERROR_CODE.SUCCESS:
@@ -173,7 +166,7 @@ def main():
             
             if bodies.body_list: 
                 if bodies.body_list[0].keypoint_2d is not None:
-                    # print("Bhau = ")
+                    # print("flag = ")
                     joint_kps = bodies.body_list[0].keypoint_2d
                     kps.append(joint_kps)
                     # print(np.array(joint_kps))
