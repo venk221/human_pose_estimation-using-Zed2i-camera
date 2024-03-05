@@ -7,10 +7,8 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 ax.scatter(kps[:, 0], kps[:, 1], kps[:, 2])
 
-# Set labels
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
 
-# Show the plot
 plt.show()
