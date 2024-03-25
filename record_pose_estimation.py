@@ -162,15 +162,14 @@ def main():
     while viewer.is_available():
         if zed.grab() == sl.ERROR_CODE.SUCCESS:
             frame_count += 1
-            # print("1")
+            # print("1") #check1
             zed.retrieve_image(image, sl.VIEW.LEFT, sl.MEM.CPU, display_resolution)
             zed.retrieve_bodies(bodies, body_runtime_param)
-            # print("2")
+            # print("2")  #check2
 
             if bodies.body_list: 
-                # print("3")
+                # print("3")   #check3
                 if bodies.body_list[0].keypoint_2d is not None:
-                    print("Bhau = ")
                     joint_kps = bodies.body_list[0].keypoint_2d
                     kps.append(joint_kps)
                     print("frame count and kps=",frame_count+1,"\n", np.array(joint_kps))
@@ -182,7 +181,6 @@ def main():
                     for k, (x, y) in enumerate(joint_kps):
                         
                         if 0 <= x < depth_map.get_width() and 0 <= y < depth_map.get_height():
-                            # print("Depth at ({}, is {}, {}):".format(k, x, y))
                             err, depth = depth_map.get_value(x, y)
                             if not np.isnan(depth):
                                 world_coordinates = depth_to_world_coordinates(depth, x, y, fx, fy, cx, cy)
@@ -192,9 +190,8 @@ def main():
                                 # frame_data_dict[frame_count].append(world_coordinates)
                                 wp_array[k] = world_coordinates
                                 
-                    # print(wp_array.shape)
                     WP__ = np.dstack((WP__, wp_array))
-                    print("efrsg",WP__.shape)
+                    print("World Coordinates",WP__.shape)
 
             viewer.update_view(image, bodies) 
             image_left_ocv = image.get_data()
@@ -204,9 +201,9 @@ def main():
             if key == 113: # for 'q' key
                 print("Exiting...")
                 if joint_kps is not None:
-                    np.save(r'C:\Users\Neurotech\Downloads\BHAU_joint_kps.npy', joint_kps)
-                    np.save(r'C:\Users\Neurotech\Downloads\BHAU_joint_depths.npy', depths_)
-                    np.save(r'C:\Users\Neurotech\Downloads\BHAU_world_points.npy', WP__)
+                    np.save(r'C:\Users\Neurotech\Downloads\joint_kps.npy', joint_kps)
+                    np.save(r'C:\Users\Neurotech\Downloads\joint_depths.npy', depths_)
+                    np.save(r'C:\Users\Neurotech\Downloads\world_points.npy', WP__)
                 break
             if key == 109: # for 'm' key
                 if (key_wait>0):
