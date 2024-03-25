@@ -19,7 +19,7 @@ The goal of this project is to get human pose estimation and localize it in 3D s
 ## Installation
 1. Install [Zed SDK][https://github.com/stereolabs/zed-sdk]
 2. Clone the [Repository][git clone https://github.com/venk221/human_pose_estimation-using-Zed2i-camera.git]
-3. To perform real-time pose estimation, run the file using: python "mixture.py" --output_svo_file "path\to\save\file.svo"
+3. To perform real-time pose estimation, run the file using: python "record_pose_estimation.py" --output_svo_file "path\to\save\file.svo"
 4. To export the svo file into avi file run the following script from the Zed SDK: python svo_export.py --mode "0/1/2/3" --input_svo_file path\to\svo\file.svo --output_avi_file path\to\file.avi
    
 ## Analysis:
