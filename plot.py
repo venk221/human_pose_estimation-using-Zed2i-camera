@@ -2,13 +2,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 kps = np.load(r"C:\Users\Neurotech\Downloads\world_points.npy", allow_pickle=True)
 print(kps.shape)
+# print(kps)
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(kps[:, 0], kps[:, 1], kps[:, 2])
+for i in range(kps.shape[2]):
 
-ax.set_xlabel('X')
-ax.set_ylabel('Y')
-ax.set_zlabel('Z')
+    print(kps[:,:,i].shape)
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.scatter(kps[:,0 , i], kps[:, 1, i], kps[:, 2, i])
 
-plt.show()
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+
+    plt.show()
